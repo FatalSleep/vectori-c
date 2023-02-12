@@ -9,7 +9,7 @@
 	optvoidpntr_t  optvoidpntr_def() { return (optvoidpntr_t) { PVK_FALSE, NULL }; }
 	void_t         optvoidpntr_set(optvoidpntr_t* val, void_t* pntr) { val->hasValue = (pntr == NULL) ? PVK_FALSE : PVK_TRUE; val->value = pntr; }
 	bool32_t       optvoidpntr_has(optvoidpntr_t* val) { return val->hasValue; }
-	void_t* optvoidpntr_val(optvoidpntr_t* val) { return val->value; }
+	void_t*        optvoidpntr_val(optvoidpntr_t* val) { return val->value; }
 	
 	/// 
 	/// Vector Implementation w/ Iterator
