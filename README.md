@@ -1,5 +1,5 @@
 # vectori-c
-Vector w/ Internal Iterator in C (with option void pointer type).
+Vector w/ Internal Iterator in C (with option void pointer type). Calling `vectori_free()` will free the underlying vector memory, but NOT any dynamically allocated pointers/items it may store--that needs to be done manually.
 
 `optvoidpntr_t` is a struct which stores info to allocated memory of a `void*`:
 
