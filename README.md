@@ -4,11 +4,17 @@ Vector w/ Internal Iterator in C (with option void pointer type).
 `optvoidpntr_t` is a struct which stores info to allocated memory of a `void*`:
 
 ```C
+// optvoidpntr_t typedef struct.
 typedef struct optvoidpntr_t { bool32_t hasValue; void_t* value; } optvoidpntr_t;
-optvoidpntr_t  optvoidpntr_def() { return (optvoidpntr_t) { FALSE, NULL }; }
-void_t         optvoidpntr_set(optvoidpntr_t* val, void_t* pntr) { val->hasValue = (pntr == NULL)?FALSE:TRUE; val->value = pntr; }
-bool32_t       optvoidpntr_has(optvoidpntr_t* val) { return val->hasValue; }
-void_t*        optvoidpntr_val(optvoidpntr_t* val) { return val->value; }
+
+// Returns a default struct (zero init) with no pointer allocation.
+optvoidpntr_t  optvoidpntr_def();
+// Sets the pointer of this optional type.
+void_t         optvoidpntr_set(optvoidpntr_t* val, void_t* pntr);
+// Returns TRUE if the pointer has memory, else FALSE.
+bool32_t       optvoidpntr_has(optvoidpntr_t* val);
+// Returns the underlying pointer.
+void_t*        optvoidpntr_val(optvoidpntr_t* val);
 ```
 
 ```C
