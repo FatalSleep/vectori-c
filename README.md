@@ -39,8 +39,6 @@ void_t vectori_free(vectori* vector);
 bool32_t vectori_realloc(vectori* vector, size_t length);
 /// Returns TRUE if the vector is allocated, else FALSE.
 bool32_t vectori_isalloc(vectori* vector);
-/// Returns an optvoidpntr_t (optional void pointer), describing the struct pointer data.
-optvoidpntr_t vectori_getpntr(vectori* vector);
 /// Returns the full byte-length of allocated memory for a vector.
 size_t vectori_bytesize(vectori* vector);
 /// Returns the maximum number of elements that can be written (until resized on insert).
@@ -65,8 +63,8 @@ bool32_t vectori_replace_unsafe(vectori* vector, void_t* data, size_t index, siz
 bool32_t vectori_remove(vectori* vector, size_t index);
 /// Returns NULL if index is not within bounds iterator > index >= 0 or returns pointer to element in vector.
 void_t* vectori_get(vectori* vector, size_t index);
-/// Returns FALSE if [index] is not within bounds of iterator > index >= 0, else TRUE. [data] is set to element pointer or NULL.
-bool32_t vectori_get2(vectori* vector, size_t index, void_t* data);
 /// Returns a pointer to a new string constructor from a vector: outLen can be pointer to get length, or NULL to ignore.
 char_t* vectori_makestr(vectori* vector, size_t first, size_t last, size_t* outLen);
+/// Creates a calloc'd copy of the passed string.
+har_t* vectori_cpystr(const char_t* str)
 ```
