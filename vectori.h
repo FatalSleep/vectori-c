@@ -4,7 +4,7 @@
 	
 	#include <stdbool.h>
 	#include <stdint.h>
-  
+
 	typedef struct optvoidpntr_t { bool32_t hasValue; void_t* value; } optvoidpntr_t;
 	optvoidpntr_t  optvoidpntr_def() { return (optvoidpntr_t) { PVK_FALSE, NULL }; }
 	void_t         optvoidpntr_set(optvoidpntr_t* val, void_t* pntr) { val->hasValue = (pntr == NULL) ? PVK_FALSE : PVK_TRUE; val->value = pntr; }
@@ -81,11 +81,11 @@
 
 	/// Attempts to resize the vector: Returns true if the vector is allocated (regardless if it was resized), else FALSE.
 	bool32_t vectori_realloc(vectori* vector, size_t length) {
-		void_t* data = realloc(vector->data.value, length);
+		void_t* data = realloc(vector->data.value, length * vector->typeSize);
 
 		if (data != NULL) {
 			optvoidpntr_set(&vector->data, data);
-			vector->length = length;
+			vector->length = length * vector->typeSize;
 			return TRUE * optvoidpntr_has(&vector->data);
 		}
 
@@ -95,11 +95,6 @@
 	/// Returns TRUE if the vector is allocated, else FALSE.
 	bool32_t vectori_isalloc(vectori* vector) {
 		return optvoidpntr_has(&vector->data);
-	}
-
-	/// Returns an optvoidpntr_t (optional void pointer), describing the struct pointer data.
-	optvoidpntr_t vectori_getpntr(vectori* vector) {
-		return vector->data;
 	}
 
 	/// Returns the full byte-length of allocated memory for a vector.
@@ -207,18 +202,6 @@
 		return (int8_t*)vector->data.value + byteIndex;
 	}
 
-	/// Returns FALSE if [index] is not within bounds of iterator > index >= 0, else TRUE. [data] is set to element pointer or NULL.
-	bool32_t vectori_get2(vectori* vector, size_t index, void_t* data) {
-		data = NULL;
-
-		size_t byteIndex = index * vector->typeSize;
-		if (optvoidpntr_has(&vector->data) == FALSE || byteIndex < 0 || byteIndex > vector->iterator)
-			return FALSE;
-
-		data = (int8_t*)vector->data.value + byteIndex;
-		return TRUE;
-	}
-
 	/// Returns a pointer to a new string constructor from a vector: outLen can be pointer to get length, or NULL to ignore.
 	char_t* vectori_makestr(vectori* vector, size_t first, size_t last, size_t* outLen) {
 		if (outLen != NULL) {
@@ -232,6 +215,13 @@
 			memmove(string, vector->data.value, length);
 			return string;
 		}
+	}
+
+	char_t* vectori_cpystr(const char_t* str) {
+		size_t length = strlen(str);
+		char_t* string = calloc(length + 1, sizeof(char_t));
+		memmove(string, str, length);
+		return string;
 	}
 
 #endif
