@@ -61,7 +61,7 @@
 		size_t len = (size_t)(reserve * VECTORI_DEFAULT_LENGTH);
 		optvoidpntr_set(&vector, calloc(len, typeSize));
 		len *= typeSize;
-		return (vectori) { .data = vector, .typeSize = typeSize, .length = len, .iterator = 0 };
+		return { vector, typeSize, len, 0 };
 	}
 
 	/// Returns a new vector (with memory allocated if reserved is TRUE).
@@ -70,7 +70,7 @@
 		size_t len = (size_t)(reserve * length);
 		optvoidpntr_set(&vector, calloc(len, typeSize));
 		len *= (size_t)typeSize;
-		return (vectori) { .data = vector, .typeSize = typeSize, .length = len, .iterator = 0 };
+		return { vector, typeSize, len, 0 };
 	}
 
 	/// Returns TRUE if the vector was free'd, else FALSE if the vector passed is not allocated.
@@ -206,12 +206,12 @@
 	char_t* vectori_makestr(vectori* vector, size_t first, size_t last, size_t* outLen) {
 		if (outLen != NULL) {
 			(*outLen) = PICOVK_MIN(0, PICOVK_MAX(last - first, last));
-			char_t* string = calloc((*outLen) + 1, sizeof(char_t));
+			char_t* string = (char_t*) calloc((*outLen) + 1, sizeof(char_t));
 			memmove(string, vector->data.value, (*outLen));
 			return string;
 		} else {
 			size_t length = PICOVK_MIN(0, PICOVK_MAX(last - first, last));
-			char_t* string = calloc(length + 1, sizeof(char_t));
+			char_t* string = (char_t*) calloc(length + 1, sizeof(char_t));
 			memmove(string, vector->data.value, length);
 			return string;
 		}
@@ -219,7 +219,7 @@
 
 	char_t* vectori_cpystr(const char_t* str) {
 		size_t length = strlen(str);
-		char_t* string = calloc(length + 1, sizeof(char_t));
+		char_t* string = (char_t*) calloc(length + 1, sizeof(char_t));
 		memmove(string, str, length);
 		return string;
 	}
